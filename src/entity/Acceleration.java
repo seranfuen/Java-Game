@@ -3,14 +3,12 @@ package entity;
 /**
  * Represents an acceleration that changes a particular speed, measured in
  * pixels / s^2
- * @author Sergio ¡ngel Verbo
+ * @author Sergio √Ångel Verbo
  *
  */
 public class Acceleration {
-	/**
-	 * Returns 0 acceleration on both axes
-	 * @return
-	 */
+
+	
 	public static Acceleration zeroAcceleration() {
 		return new Acceleration(0,0);
 	}

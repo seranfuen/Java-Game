@@ -15,7 +15,7 @@ import entity.Speed;
  * When two entities intersect, the collision Engine determines what to do with
  * them, modifying their position, state, or performing anything that needs
  * to be done with them
- * @author Sergio ¡ngel Verbo
+ * @author Sergio √Ångel Verbo
  *
  */
 public class CollisionEngine {

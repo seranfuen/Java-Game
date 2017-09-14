@@ -47,6 +47,12 @@ public class Frame {
 		size = new Size(frame.getWidth(null), frame.getHeight(null));
 	}
 	
+	public Frame(Image frameImage, int duration) {
+		frame = frameImage;
+		this.duration = duration;
+		size = new Size(frame.getWidth(null), frame.getHeight(null));
+	}
+	
 	/**
 	 * Returns the image
 	 * @return the image of the frame

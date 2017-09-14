@@ -8,26 +8,20 @@ import graphic.AnimationLibrary;
 
 public class Goomba extends Enemy {
 
-	public Goomba(Position initpos) {
+	public Goomba(Position initpos) throws IOException {
 		super(initpos, new Size(44, 44), getAnimation());
 		walkingSpeed = 110;
 	}
 
-	private static AnimationLibrary getAnimation() {
+	private static AnimationLibrary getAnimation() throws IOException {
 		final int frameSpeed = 180;
 		AnimationCreator ac = new AnimationCreator("sprites\\goomba");
-		try {
-			Animation standingLeft = ac.getStaticAnimation("goomba_01.png");
-			Animation standingRight = ac.getStaticAnimation("goomba_02.png");
-			ac.addFrame("goomba_01.png", frameSpeed);
-			ac.addFrame("goomba_02.png", frameSpeed);
-			Animation walking = ac.createAnimation();
-			return new AnimationLibrary(standingLeft, standingRight, walking, walking, walking);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		Animation standingLeft = ac.getStaticAnimation("goomba_01.png");
+		Animation standingRight = ac.getStaticAnimation("goomba_02.png");
+		ac.addFrame("goomba_01.png", frameSpeed);
+		ac.addFrame("goomba_02.png", frameSpeed);
+		Animation walking = ac.createAnimation();
+		return new AnimationLibrary(standingLeft, standingRight, walking, walking, walking);
 	}
 	
 	@Override

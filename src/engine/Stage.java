@@ -3,6 +3,7 @@ package engine;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import graphic.PainterFrame;
 /**
  * A stage represents a particular self-contained game stage, with all the
  * entities included in it, the current state, scrolling rules, etc
- * @author Sergio ¡ngel Verbo
+ * @author Sergio √Ångel Verbo
  *
  */
 public class Stage {
@@ -155,11 +156,15 @@ public class Stage {
 	 * @return
 	 */
 	private Enemy createEnemy(Enemies enemy, int x, int y) {
+		try {
 		switch (enemy) {
 		case GOOMBA:
 			return new Goomba(new Position(x,y));
 		}
 		return null;
+		} catch (IOException e) {
+			return null;
+		}
 	}
 
 

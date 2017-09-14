@@ -1,5 +1,6 @@
 package entity;
 
+import engine.GameSettings;
 import graphic.Animation;
 import graphic.AnimationLibrary;
 import graphic.Frame;
@@ -7,8 +8,7 @@ import graphic.Frame;
 /**
  * An actor is an Entity that can move to the left or to the right and that can
  * fall downwards
- * @author Sergio Ángel Verbo
- *
+ * @author Sergio Ãngel Verbo
  */
 public class Actor extends Entity {
 	public enum Direction { LEFT, RIGHT };
@@ -17,6 +17,7 @@ public class Actor extends Entity {
 	protected AnimationLibrary animationLibrary;
 	protected int walkingSpeed = 200;
 	protected boolean jumpable = true; // if false, jump will perform nothing
+	
 	// Do not confuse with jumpable. Sometimes a jumpable actor cannot perform
 	// a jump at a particular moment. Jumpable disables jumping, canJump disables
 	// it temporarily
@@ -24,7 +25,7 @@ public class Actor extends Entity {
 	// If false, the actor is not allowed to walk (the speed is set to Zero in
 	// all cases). It may still change the direction it's facing
 	protected boolean canMove = true;
-	protected int gravity = 1200;
+	
 	// Flag to know the actor is set to die when dying counter runs out
 	private boolean dying = false;
 	private int dyingCounter = -1;
@@ -44,6 +45,11 @@ public class Actor extends Entity {
 		setSolid(true);
 	}
 	
+	public Actor(Position initpos, Size size, AnimationLibrary animations, Direction direction) {
+		this(initpos, size, animations);
+		setDirection(direction);
+	}
+
 	@Override
 	public void update(long elapsed) {
 		super.update(elapsed);
@@ -79,7 +85,7 @@ public class Actor extends Entity {
 	 * jumping
 	 */
 	public void fall() {
-		setAcceleration(0, gravity);
+		setAcceleration(0, getGravity());
 		canJump = false;
 	}
 	
@@ -102,9 +108,16 @@ public class Actor extends Entity {
 	 * Sets the actor to perform a jump if it is jumpable
 	 */
 	public void jump() {
+		jump(-700);
+	}
+	
+	public void jump(int initialUpSpeed) {
+		if (initialUpSpeed > 0) {
+			initialUpSpeed = -initialUpSpeed;
+		}
 		if (jumpable && canJump) {
-			setSpeed(speed().getHorizontal(), -700);
-			setAcceleration(0, gravity);
+			setSpeed(speed().getHorizontal(), initialUpSpeed);
+			setAcceleration(0, getGravity());
 			canJump = false;
 		}
 	}
@@ -220,5 +233,4 @@ public class Actor extends Entity {
 		setSpeed(speed().getHorizontal(), 0);
 		canJump = true;
 	}
-	
 }

@@ -1,11 +1,12 @@
 package entity;
 
+import engine.GameSettings;
 import graphic.Frame;
 
 /**
  * Generic solid static entity
  * 
- * @author Sergio Ángel Verbo
+ * @author Sergio ï¿½ngel Verbo
  *
  */
 public class Entity implements IEntity {
@@ -18,8 +19,8 @@ public class Entity implements IEntity {
 	protected Frame staticFrame;
 	protected boolean solid;
 	private boolean isStatic;
-	private int gravity = 1200; // default gravity
 	private boolean enabled = true;
+	private int gravity;
 	private int flickint = -1; // every how often the flicker flag is switched
 	private int flicktime = -1;  // remaining flicker time in ms
 	private int flickintrem = -1; // remaining time to switch the flicker flag
@@ -35,6 +36,7 @@ public class Entity implements IEntity {
 	public Entity(Position initialPos, Size size) {
 		position = lastPosition = initialPos;
 		this.size = size;
+		gravity = GameSettings.getGameSettings().getGravity();
 	}
 
 	public Entity(Position initialPos, Size size, Frame staticFrame) {
