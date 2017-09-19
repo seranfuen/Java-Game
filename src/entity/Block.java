@@ -1,16 +1,17 @@
 package entity;
 
+import engine.ITrigger;
 import graphic.Frame;
 
 /**
  * Blocks represent entities that are squared, usually solid and which may
  * contain an object inside 
- * @author Sergio
+ * @author Sergio Ángel Verbo
  *
  */
-public abstract class Block extends Entity {
+public abstract class Block extends Entity implements ITrigger {
 	
-	// if it can contain something, flag setting wheteher it's been already
+	// if it can contain something, flag setting whether it's been already
 	// used
 	protected boolean used = false;
 

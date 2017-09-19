@@ -5,6 +5,7 @@ import graphic.AnimationCreator;
 import graphic.AnimationLibrary;
 import graphic.Constants;
 import graphic.Frame;
+import helper.ExceptionHelper;
 
 public class Star extends Power {
 	public Star(Position initialPosition) {
@@ -37,6 +38,7 @@ public class Star extends Power {
 			ac.clear();
 			return new AnimationLibrary(ani, ani, ani, ani, ani);
 		} catch (Exception e) {
+			ExceptionHelper.ShowExceptionClose(e);
 			return null;
 		}
 	}

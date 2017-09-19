@@ -5,7 +5,7 @@ import entity.IEntity;
 /**
  * Reports a trigger by the trigger entity given and the entity that is created
  * from the trigger and should be added to the game
- * @author Sergio ¡ngel Verbo
+ * @author Sergio √Ångel Verbo
  *
  */
 public interface ITriggerListener {

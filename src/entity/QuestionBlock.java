@@ -4,6 +4,7 @@ import java.io.IOException;
 import graphic.Animation;
 import graphic.AnimationCreator;
 import graphic.Frame;
+import helper.ExceptionHelper;
 
 /**
  * A question block that may contain something
@@ -11,13 +12,13 @@ import graphic.Frame;
  *
  */
 public class QuestionBlock extends Block {
-	
 
 	private static Animation unusedAni = null;
 	private static Animation usedAni = null;
 	private static final int squareSize = 48;
 	private boolean bumping = false;
 	private Position initialPosition;
+	private int bumpSpeed = -200;
 	
 	private static final int aniSpeed = 150;
 	
@@ -41,8 +42,7 @@ public class QuestionBlock extends Block {
 			try {
 				return ac.getStaticAnimation("q_block_off.png");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ExceptionHelper.ShowExceptionClose(e);
 				return null;
 			}
 		}
@@ -72,8 +72,7 @@ public class QuestionBlock extends Block {
 				ac.addFrame("q_block_03.png", aniSpeed);
 				ac.addFrame("q_block_04.png", aniSpeed);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ExceptionHelper.ShowExceptionClose(e);
 				return null;
 			}
 			unusedAni = ac.createAnimation();
@@ -84,8 +83,8 @@ public class QuestionBlock extends Block {
 	@Override
 	public void activate() {
 		if (!used) {
-			setSpeed(0, -230);
-			setAcceleration(0, 1200);
+			setSpeed(0, bumpSpeed);
+			setAcceleration(0, getGravity() * 1.2);
 			used = true;
 			bumping = true;
 		}

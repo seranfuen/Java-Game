@@ -73,6 +73,14 @@ public class Stage {
 		addActor(player);
 	}
 	
+	public void toggleMarioRunning() {
+		if (player.isRunning()) {
+			player.setWalkingSpeed();
+		}
+		else {
+			player.setRunningSpeed();
+		}
+	}
 	
 	public void addGround(Ground g) {
 		ground.add(g);
@@ -290,6 +298,10 @@ public class Stage {
 			break;
 		case KeyEvent.VK_SPACE:
 			player.jump();
+			break;
+		case KeyEvent.VK_X:
+			player.setRunningSpeed();
+			break;
 		}
 	}
 	
@@ -314,6 +326,9 @@ public class Stage {
 			} else {
 				player.moveRight();
 			}
+			break;
+		case KeyEvent.VK_X:
+			player.setWalkingSpeed();
 			break;
 		}
 	}

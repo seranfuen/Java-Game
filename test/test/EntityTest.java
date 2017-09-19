@@ -26,6 +26,10 @@ public class EntityTest extends JFrame {
 	
 	long elapsed = 0;
 	
+	private final int updateMs = 10;
+	private static final int width = 800;
+	private static final int height = 600;
+	
 	class Painter extends JPanel {
 		/**
 		 * 
@@ -48,9 +52,9 @@ public class EntityTest extends JFrame {
 	private Stage stage;
 	public EntityTest() {
 		panel = new Painter();
-		panel.setSize(800, 800);
+		panel.setSize(width, height);
 		this.add(panel);
-		setSize(800, 800);
+		setSize(width, height);
 		setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addKeyListener(new KeyListener() {
@@ -71,14 +75,14 @@ public class EntityTest extends JFrame {
 				stage.keyPressed(e.getKeyCode());
 			}
 		});
-        Timer tim = new Timer(30, new ActionListener() {
+        Timer tim = new Timer(updateMs, new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateState();	
 			}
 		});
-        stage = new Stage(1200, new Size(2550, 1200), new Size(800, 800), 
+        stage = new Stage(1200, new Size(2550, 1200), new Size(width, height), 
         		new Mario(new Position(399, 699)));
         stage.addGround(new Ground(new Position(0, 1120), 1200, 51));
         stage.addGround(new Ground(new Position(1200, 1080), 250, 200));
@@ -103,10 +107,9 @@ public class EntityTest extends JFrame {
 	}
 	
 	private void updateState() {
-		elapsed += 30; 
-		stage.update(30);
+		elapsed += updateMs; 
+		stage.update(updateMs);
 		panel.updateUI();
-		
 	}
 
 

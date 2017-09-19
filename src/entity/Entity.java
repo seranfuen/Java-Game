@@ -6,7 +6,7 @@ import graphic.Frame;
 /**
  * Generic solid static entity
  * 
- * @author Sergio �ngel Verbo
+ * @author Sergio Ángel Verbo
  *
  */
 public class Entity implements IEntity {
@@ -80,6 +80,25 @@ public class Entity implements IEntity {
 				|| position.vertical() > posoth.vertical() + sizoth.height()
 				|| posoth.horizontal() > position.horizontal() + size.width() 
 				|| posoth.vertical() > position.vertical() + size.height());
+	}
+	
+	public boolean notInContact(IEntity otherEntity) {
+		return isRightOfEntity(otherEntity) || isLeftOfEntity(otherEntity) || isBelowEntity(otherEntity);
+	}
+
+	private boolean isBelowEntity(IEntity otherEntity) {
+		return position().vertical() > otherEntity.position().vertical() +
+		 otherEntity.size().height();
+	}
+
+	private boolean isLeftOfEntity(IEntity otherEntity) {
+		return position().horizontal() +
+		size().width() < otherEntity.position().horizontal();
+	}
+
+	private boolean isRightOfEntity(IEntity otherEntity) {
+		return position().horizontal() > otherEntity.position().horizontal() + 
+				otherEntity.size().width();
 	}
 
 	@Override

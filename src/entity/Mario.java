@@ -5,22 +5,21 @@ import java.io.IOException;
 import graphic.Animation;
 import graphic.AnimationCreator;
 import graphic.AnimationLibrary;
+import helper.ExceptionHelper;
 
 public class Mario extends Player {
 	
 	private static final String dir = "sprites\\mario";
 	private static final int animationSpeed = 80;
+	private static final int marioWalkingSpeed = 250;
+	private static final int marioRunningSpeed = 450;
 
 	public Mario(Position initpos) {
 		super(initpos, new Size(40, 77), loadAnimations());
-		// TODO Auto-generated constructor stub
-		walkingSpeed = 330;
+		walkingSpeed = marioWalkingSpeed;
+		runningSpeed = marioRunningSpeed;
 	}
 
-	/**
-	 * Loads the animation library for Mario
-	 * @return animation library for Mario
-	 */
 	private static AnimationLibrary loadAnimations() {
 		return new AnimationLibrary(getStandingLeft(),
 				getStandingRight(),
@@ -34,7 +33,7 @@ public class Mario extends Player {
 		try {
 			return ac.getStaticAnimation("mario_big_right_standing.png");
 		} catch (IOException e) {
-			e.printStackTrace();
+			ExceptionHelper.ShowExceptionClose(e);
 			return null;
 		}
 	}
@@ -44,7 +43,7 @@ public class Mario extends Player {
 		try {
 			return ac.getStaticAnimation("mario_big_left_standing.png");
 		} catch (IOException e) {
-			e.printStackTrace();
+			ExceptionHelper.ShowExceptionClose(e);
 			return null;
 		}
 	}
@@ -58,8 +57,7 @@ public class Mario extends Player {
 			ac.addFrame("mario_big_right_walk_01.png", animationSpeed);
 			return ac.createAnimation();
 		} catch (IOException e) {
-			System.out.println(System.getProperty(("user.dir")));
-			e.printStackTrace();
+			ExceptionHelper.ShowExceptionClose(e);
 			return null;
 			
 		}
@@ -74,7 +72,7 @@ public class Mario extends Player {
 			ac.addFrame("mario_big_left_walk_01.png", animationSpeed);
 			return ac.createAnimation();
 		} catch (IOException e) {
-			e.printStackTrace();
+			ExceptionHelper.ShowExceptionClose(e);
 			return null;
 		}
 	}
