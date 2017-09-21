@@ -1,32 +1,47 @@
 package entity;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import engine.ITriggerListener;
 import graphic.Animation;
 import graphic.AnimationCreator;
 import graphic.Frame;
 import helper.ExceptionHelper;
 
 /**
- * A question block that may contain something
- * @author Sergio
+ * A question block that may contain something, which is made to appear by the
+ * ITrigger events
+ * 
+ * @author Sergio Ángel Verbo
  *
  */
 public class QuestionBlock extends Block {
 
+	public enum PowerupType {
+		None, Coin, Mushroom
+	}
+
 	private static Animation unusedAni = null;
 	private static Animation usedAni = null;
 	private static final int squareSize = 48;
+	private List<ITriggerListener> listeners;
 	private boolean bumping = false;
 	private Position initialPosition;
 	private int bumpSpeed = -200;
-	
+	private PowerupType powerupType = PowerupType.None;
+
 	private static final int aniSpeed = 150;
-	
-	public QuestionBlock(Position initialPos) {
+
+	public QuestionBlock(Position initialPos, PowerupType powerupType) {
 		super(initialPos, new Size(squareSize, squareSize), null, true);
 		this.initialPosition = initialPos;
+		if (powerupType != null) {
+			this.powerupType = powerupType;
+		}
 	}
-	
+
 	@Override
 	public Frame getSprite(long duration) {
 		if (!used) {
@@ -61,8 +76,7 @@ public class QuestionBlock extends Block {
 			}
 		}
 	}
-	
-	
+
 	private static Animation getUnusedAni() {
 		if (unusedAni == null) {
 			AnimationCreator ac = new AnimationCreator("sprites\\scenery");
@@ -87,7 +101,48 @@ public class QuestionBlock extends Block {
 			setAcceleration(0, getGravity() * 1.2);
 			used = true;
 			bumping = true;
+			if (listeners != null) {
+				IEntity powerup = getPowerup();
+				if (powerup != null) {
+					for (ITriggerListener listener : listeners) {
+						listener.trigger(this, powerup);
+					}
+				}
+			}
 		}
 	}
-	
+
+	private IEntity getPowerup() {
+		switch (powerupType) {
+		case Coin:
+			return new Coin(new Position(this.position().horizontal() + 10, this.position().vertical() - this.size().height()));
+		default:
+			return null;
+		}
+	}
+
+	@Override
+	public void addListener(ITriggerListener listener) {
+		if (listeners == null)
+			listeners = new ArrayList<ITriggerListener>();
+		listeners.add(listener);
+	}
+
+	@Override
+	public IEntity getEntity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void rearm() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean isRearmable() {
+		return false;
+	}
+
 }

@@ -256,7 +256,9 @@ public class CollisionEngine {
 			actor.setSpeed(new Speed(actor.speed().getHorizontal(), 0));
 			actor.setPosition(new Position(actor.position().horizontal(),
 					block.position().vertical() + block.size().height() + 1));
-			block.activate();
+			if (!block.isUsed() && actor == stage.getPlayer()) {
+				block.activate();
+			}
 			break;
 		case LEFT:
 			actor.setPosition(new Position(block.position().horizontal() + block.size().width() + 1,
@@ -282,5 +284,4 @@ public class CollisionEngine {
 		entity.setPosition(entity.previousPosition());
 
 	}
-
 }

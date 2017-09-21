@@ -2,6 +2,7 @@ package entity;
 
 import java.io.IOException;
 
+import engine.ITriggerListener;
 import graphic.AnimationCreator;
 import graphic.Frame;
 
@@ -25,6 +26,30 @@ public class WoodenBlock extends Block {
 	public void activate() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void addListener(ITriggerListener list) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IEntity getEntity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void rearm() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isRearmable() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

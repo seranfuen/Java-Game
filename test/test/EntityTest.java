@@ -14,12 +14,11 @@ import engine.Stage;
 import engine.Stage.Blocks;
 import engine.Stage.Direction;
 import engine.Stage.Enemies;
-import entity.Enemy;
-import entity.Goomba;
 import entity.Ground;
 import entity.Mario;
 import entity.Position;
 import entity.QuestionBlock;
+import entity.QuestionBlock.PowerupType;
 import entity.Size;
 
 public class EntityTest extends JFrame {
@@ -31,18 +30,15 @@ public class EntityTest extends JFrame {
 	private static final int height = 600;
 	
 	class Painter extends JPanel {
-		/**
-		 * 
-		 */
+
 		private static final long serialVersionUID = -4754525898910099399L;
 		
 		public Painter() {
-
 		}
 
 		@Override
 		public void paint(Graphics g) {
-			stage.paint(g, elapsed);	
+			stage.paint(g, elapsed);
 		}
 	}
 
@@ -56,6 +52,7 @@ public class EntityTest extends JFrame {
 		this.add(panel);
 		setSize(width, height);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addKeyListener(new KeyListener() {
 			
@@ -92,16 +89,16 @@ public class EntityTest extends JFrame {
         stage.addEnemy(Enemies.GOOMBA, 1300, 1000, Direction.LEFT);
         int bp = 920;
         stage.addBlock(Blocks.QUESTION, 200, bp, null);
-        stage.addBlock(new QuestionBlock(new Position(248, bp)));
-        stage.addBlock(new QuestionBlock(new Position(248+48, bp)));
-        stage.addBlock(new QuestionBlock(new Position(248+48*2, bp)));
-        stage.addBlock(new QuestionBlock(new Position(248+48*3, bp)));
+        stage.addBlock(new QuestionBlock(new Position(248, bp), PowerupType.Coin));
+        stage.addBlock(new QuestionBlock(new Position(248+48, bp), PowerupType.Coin));
+        stage.addBlock(new QuestionBlock(new Position(248+48*2, bp), PowerupType.Coin));
+        stage.addBlock(new QuestionBlock(new Position(248+48*3, bp), PowerupType.Coin));
         stage.addEnemy(Stage.Enemies.GOOMBA, 300, 1120-46, Direction.LEFT);
         stage.addEnemy(Stage.Enemies.GOOMBA, 390, 1120-46, Direction.LEFT);
         stage.addBlock(Blocks.WOODEN,0, 1120-47, null);
         stage.addBlock(Blocks.WOODEN, 600, 1120-47, null);
         stage.addBlock(Blocks.WOODEN, 600, 1120-47*2, null);
-        stage.addBlock(Blocks.QUESTION, 850, bp-60, null);
+        stage.addBlock(Blocks.QUESTION, 850, bp-60, PowerupType.Coin);
         //stage.addBlock(Blocks.WOODEN, 600, 1120-47*2, null);
         tim.start();
 	}

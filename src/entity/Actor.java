@@ -1,5 +1,8 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import graphic.Animation;
 import graphic.AnimationLibrary;
 import graphic.Frame;
@@ -16,6 +19,7 @@ public class Actor extends Entity {
 	private static final int defaultJumpSpeed = -800;
 	
 	private boolean isRunning = false;
+	private List<IKilledListener> killedListeners;
 	// Flag to know the actor is set to die when dying counter runs out
 	private boolean dying = false;
 	private int dyingCounter = -1;
@@ -25,7 +29,7 @@ public class Actor extends Entity {
 	protected int runningSpeed = 400;
 	protected Animation currentAnimation;
 	protected AnimationLibrary animationLibrary;
-
+	
 	// Sets whether the actor can ever jump or not
 	protected boolean jumpable = true;
 	
@@ -37,6 +41,7 @@ public class Actor extends Entity {
 				 Size size,
 				 AnimationLibrary animations) {
 		super(initpos, size);
+		killedListeners = new ArrayList<IKilledListener>();
 		animationLibrary = animations;
 		setDirection(Direction.RIGHT);
 		setAnimation();
@@ -72,9 +77,14 @@ public class Actor extends Entity {
 	 * @param time the time before it is killed. If <= 0, it dies instantly
 	 */
 	public void kill(int time) {
+		for (IKilledListener listener : killedListeners) listener.killed(this);
 		if (time <= 0) this.kill();
 		dying = true;
 		dyingCounter = time;
+	}
+	
+	public void addKilledListener(IKilledListener listener) {
+		killedListeners.add(listener);
 	}
 
 	/**
@@ -120,6 +130,10 @@ public class Actor extends Entity {
 			setAcceleration(0, getGravity());
 			canJump = false;
 		}
+	}
+	
+	public int getScoredKilled() {
+		return 0;
 	}
 	
 	public void setWalkingSpeed() {

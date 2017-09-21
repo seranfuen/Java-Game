@@ -9,7 +9,7 @@ import graphic.Constants;
 
 /**
  * Represetns power ups
- * @author Sergio
+ * @author Sergio Ángel Verbo
  *
  */
 public class Power extends Actor {
@@ -42,8 +42,9 @@ public class Power extends Actor {
 			return coinAnimationLibrary();
 		case MUSHROOM:
 			return mushroomAnimationLibrary();
+		default:
+			return null;
 		}
-		return null;
 	}
 	
 	private static AnimationLibrary mushroomAnimationLibrary() {

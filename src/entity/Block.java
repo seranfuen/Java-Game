@@ -21,7 +21,8 @@ public abstract class Block extends Entity implements ITrigger {
 	}
 	
 	abstract public void activate();
-	
-	
 
+	public boolean isUsed() {
+		return used;
+	}
 }

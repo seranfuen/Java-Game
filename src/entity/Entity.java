@@ -266,6 +266,11 @@ public class Entity implements IEntity {
 				.round((elapsed % 1000) / speed.yPixelMs()));
 		setRelativePosition(relx, rely);
 		updateFlicker(elapsed);
+		onUpdated();
+	}
+	
+	protected void onUpdated() {
+		
 	}
 
 }

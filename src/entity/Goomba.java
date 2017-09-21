@@ -8,6 +8,7 @@ import graphic.AnimationLibrary;
 
 public class Goomba extends Enemy {
 
+
 	public Goomba(Position initpos) throws IOException {
 		super(initpos, new Size(44, 44), getAnimation());
 		walkingSpeed = 110;
@@ -29,6 +30,11 @@ public class Goomba extends Enemy {
 		solid = false;
 		flicker(160, 1500);
 		super.kill(1500);
+	}
+	
+	@Override
+	public int getScoredKilled() {
+		return 200;
 	}
 
 }
