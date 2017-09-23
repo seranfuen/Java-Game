@@ -258,7 +258,7 @@ public class Entity implements IEntity {
 
 	@Override
 	public void update(long elapsed) {
-		speed = speed.updateSpeed(acceleration, elapsed);
+		speed = getUpdatedSpeed(elapsed);
 		lastPosition = position;
 		int relx = (int) (elapsed / 1000 * speed.getHorizontal() + Math
 				.round((elapsed % 1000) / speed.xPixelMs()));
@@ -269,8 +269,15 @@ public class Entity implements IEntity {
 		onUpdated();
 	}
 	
+	private Speed getUpdatedSpeed(long elapsed) {
+		Speed speed = this.speed.updateSpeed(acceleration, elapsed);
+		if (speed.getVertical() > 0 && speed.getVertical() > GameSettings.getGameSettings().getMaxFallingSpeed()) {
+			speed = new Speed(speed.getHorizontal(), GameSettings.getGameSettings().getMaxFallingSpeed());
+		}
+		return speed;
+	}
+	
 	protected void onUpdated() {
 		
 	}
-
 }

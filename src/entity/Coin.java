@@ -8,7 +8,7 @@ import helper.ExceptionHelper;
 
 public class Coin extends Power {
 	
-	private static final int jumpSpeed = -600;
+	private static final int jumpSpeed = -1000;
 	private int initialVerticalPos;
 	
 	public Coin(Position initpos) {

@@ -1,10 +1,12 @@
 package entity;
 
+import engine.GameSettings;
+
 /**
  * Defines the speed of an entity for the two axes. If positive, for the x axis
  * it means going to the right, for the y axis going down. If negative, for the
  * x axis it means going to the left, for the y axis going up
- * @author Sergio ¡ngel Verbo
+ * @author Sergio √Ångel Verbo
  *
  */
 public class Speed {
@@ -101,7 +103,7 @@ public class Speed {
 	 */
 	public Speed updateSpeed(Acceleration acc, long lapse) {
 		int x, y;
-		x = (int) (this.x + Math.round((lapse/1000)*acc.getHorizontal()) + 
+		x = (int)(this.x + Math.round((lapse/1000)*acc.getHorizontal()) + 
 				Math.round((lapse%1000) / (1000/acc.getHorizontal())));
 		y = (int) (this.y + Math.round((lapse/1000)*acc.getVertical()) + 
 				Math.round((lapse%1000) / (1000/acc.getVertical())));

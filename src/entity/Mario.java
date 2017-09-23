@@ -25,7 +25,9 @@ public class Mario extends Player {
 				getStandingRight(),
 				getWalkingLeft(),
 				getWalkingRight(),
-				getWalkingRight());
+				getWalkingRight(),
+				getJumpingLeft(),
+				getJumpingRight());
 	}
 	
 	private static Animation getStandingRight() {
@@ -71,6 +73,26 @@ public class Mario extends Player {
 			ac.addFrame("mario_big_left_walk_02.png", animationSpeed);
 			ac.addFrame("mario_big_left_walk_01.png", animationSpeed);
 			return ac.createAnimation();
+		} catch (IOException e) {
+			ExceptionHelper.ShowExceptionClose(e);
+			return null;
+		}
+	}
+	
+	private static Animation getJumpingLeft() {
+		AnimationCreator ac = new AnimationCreator(dir);
+		try {
+			return ac.getStaticAnimation("mario_big_left_jump.png");
+		} catch (IOException e) {
+			ExceptionHelper.ShowExceptionClose(e);
+			return null;
+		}
+	}
+	
+	private static Animation getJumpingRight() {
+		AnimationCreator ac = new AnimationCreator(dir);
+		try {
+			return ac.getStaticAnimation("mario_big_right_jump.png");
 		} catch (IOException e) {
 			ExceptionHelper.ShowExceptionClose(e);
 			return null;

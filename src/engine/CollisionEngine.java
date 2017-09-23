@@ -167,16 +167,17 @@ public class CollisionEngine {
 	/**
 	 * Do something when the player has a collision with an enemy
 	 * 
-	 * @param entity1
-	 * @param entity2
+	 * @param player
+	 * @param enemy
 	 * @param dir
 	 */
-	private void collisionEnemyPlayer(Player entity1, Enemy entity2, CollisionDirection dir) {
+	private void collisionEnemyPlayer(Player player, Enemy enemy, CollisionDirection dir) {
 		if (dir != CollisionDirection.DOWN) {
-			entity1.flicker(60, 1500);
+			player.flicker(60, 1500);
 		} 
-		else if (entity2.canKill()) {
-			entity2.kill();
+		else if (enemy.canKill()) {
+			enemy.kill();
+			player.bump();
 		}
 	}
 

@@ -11,21 +11,13 @@ package graphic;
  * WalkingLEft or WalkingRight are used when the entity is moving to the left
  * or right
  * 
- * @author Sergio ¡ngel Verbo
+ * @author Sergio √Ångel Verbo
  *
  */
 public class AnimationLibrary {
 	private Animation standingLeft, standingRight, walkingLeft, walkingRight,
-		dying;
+		dying, jumpingRight, jumpingLeft;
 	
-	/**
-	 * Constructs a new Animation Library
-	 * @param standingLeft the animation for standing looking to the left
-	 * @param standingRight the animation for standing looking to the right
-	 * @param walkingLeft the animation for walking leftwards
-	 * @param walkingRight the animation for walking rightwards
-	 * @param dying the animation to show when the actor is dying
-	 */
 	public AnimationLibrary(Animation standingLeft,
 							Animation standingRight,
 							Animation walkingLeft,
@@ -36,7 +28,21 @@ public class AnimationLibrary {
 		this.standingRight = standingRight;
 		this.walkingLeft = walkingLeft;
 		this.walkingRight = walkingRight;
+		this.jumpingLeft = standingLeft;
+		this.jumpingRight = standingRight;
 		this.dying = dying;
+	}
+	
+	public AnimationLibrary(Animation standingLeft,
+			Animation standingRight,
+			Animation walkingLeft,
+			Animation walkingRight,
+			Animation dying,
+			Animation jumpingLeft,
+			Animation jumpingRight) {
+		this(standingLeft, standingRight, walkingLeft, walkingRight, dying);
+		this.jumpingLeft = jumpingLeft;
+		this.jumpingRight = jumpingRight;
 	}
 	
 	/**
@@ -75,4 +81,11 @@ public class AnimationLibrary {
 		return dying;
 	}
 	
+	public Animation getJumpingLeft() {
+		return jumpingLeft;
+	}
+	
+	public Animation getJumpingRight() {
+		return jumpingRight;
+	}
 }

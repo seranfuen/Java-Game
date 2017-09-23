@@ -16,6 +16,7 @@ import entity.Goomba;
 import entity.Ground;
 import entity.IEntity;
 import entity.IKilledListener;
+import entity.Player;
 import entity.Position;
 import entity.QuestionBlock;
 import entity.QuestionBlock.PowerupType;
@@ -71,6 +72,7 @@ public class Stage {
 	private KeyMap kmap = new KeyMap();
 
 	private Score score;
+	private PlayerJumpController playerJumpController;
 	
 
 	/**
@@ -85,7 +87,7 @@ public class Stage {
 	 * @param player
 	 *            the player
 	 */
-	public Stage(int gravity, Size stageSize, Size screenSize, Actor player) {
+	public Stage(int gravity, Size stageSize, Size screenSize, Player player) {
 		this.gravity = gravity;
 		this.stageSize = stageSize;
 		this.screenSize = screenSize;
@@ -94,6 +96,7 @@ public class Stage {
 		xoffsetcut = (int) (screenSize.width() * (xoffsetcutratio >= 0.5 ? xoffsetcutratio : 0.5));
 		yoffsetcut = (int) (screenSize.height() * (yoffsetcutratio >= 0.5 ? yoffsetcutratio : 0.5));
 		addActor(player);
+		playerJumpController = new PlayerJumpController(player);
 	}
 
 	public void toggleMarioRunning() {
@@ -306,10 +309,10 @@ public class Stage {
 	/**
 	 * Updates the state of the stage after n milliseconds
 	 */
-	public void update(long ms) {
+	public void update(long msElapsed) {
 		for (IEntity e : entities) {
 			if (e.isEnabled()) {
-				e.update(ms);
+				e.update(msElapsed);
 			}
 		}
 
@@ -344,6 +347,7 @@ public class Stage {
 
 		entitiesToAdd.clear();
 
+		playerJumpController.update(msElapsed);
 		updateScreenBounds();
 	}
 
@@ -392,7 +396,7 @@ public class Stage {
 			player.moveLeft();
 			break;
 		case KeyEvent.VK_SPACE:
-			player.jump();
+			playerJumpController.setJumpPressed();
 			break;
 		case KeyEvent.VK_X:
 			player.setRunningSpeed();
@@ -425,6 +429,9 @@ public class Stage {
 			break;
 		case KeyEvent.VK_X:
 			player.setWalkingSpeed();
+			break;
+		case KeyEvent.VK_SPACE:
+			playerJumpController.unsetJumpPressed();
 			break;
 		}
 	}

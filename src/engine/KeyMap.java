@@ -3,7 +3,7 @@ package engine;
 /**
  * For the keys used in the game, keeps a map of the currently pressed and
  * not pressed keys
- * @author Sergio ¡ngel Verbo
+ * @author Sergio √Ångel Verbo
  *
  */
 public class KeyMap {

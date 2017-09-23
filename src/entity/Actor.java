@@ -8,38 +8,39 @@ import graphic.AnimationLibrary;
 import graphic.Frame;
 
 /**
- * An actor is an entity that can move (left or right), optionally jump and may fall
+ * An actor is an entity that can move (left or right), optionally jump and may
+ * fall
  * 
  * @author Sergio Ángel Verbo
  */
 public class Actor extends Entity {
-	
-	public enum Direction { LEFT, RIGHT };
-	
-	private static final int defaultJumpSpeed = -800;
-	
+
+	public enum Direction {
+		LEFT, RIGHT
+	};
+
+	private static final int defaultJumpSpeed = -900;
 	private boolean isRunning = false;
 	private List<IKilledListener> killedListeners;
 	// Flag to know the actor is set to die when dying counter runs out
 	private boolean dying = false;
 	private int dyingCounter = -1;
-	
+
 	protected Direction direction = Direction.LEFT;
 	protected int walkingSpeed = 200;
 	protected int runningSpeed = 400;
 	protected Animation currentAnimation;
 	protected AnimationLibrary animationLibrary;
-	
+
 	// Sets whether the actor can ever jump or not
 	protected boolean jumpable = true;
-	
-	// If jumpable is true, setting this to false can momentarily disable jumps for the actor
-	protected boolean canJump = true; 
+
+	// If jumpable is true, setting this to false can momentarily disable jumps for
+	// the actor
+	protected boolean canJump = true;
 	protected boolean canMove = true;
-	
-	public Actor(Position initpos,
-				 Size size,
-				 AnimationLibrary animations) {
+
+	public Actor(Position initpos, Size size, AnimationLibrary animations) {
 		super(initpos, size);
 		killedListeners = new ArrayList<IKilledListener>();
 		animationLibrary = animations;
@@ -48,7 +49,7 @@ public class Actor extends Entity {
 		setAcceleration(0, 0);
 		setSolid(true);
 	}
-	
+
 	public Actor(Position initpos, Size size, AnimationLibrary animations, Direction direction) {
 		this(initpos, size, animations);
 		setDirection(direction);
@@ -69,20 +70,24 @@ public class Actor extends Entity {
 	public void kill() {
 		setEnabled(false);
 	}
-	
+
 	/**
-	 * Sets the actor to die (be set disabled) after the time in ms has elapsed.
-	 * It is used when displaying some kind of animation before killing it,
-	 * or if it is bound by some kind of counter
-	 * @param time the time before it is killed. If <= 0, it dies instantly
+	 * Sets the actor to die (be set disabled) after the time in ms has elapsed. It
+	 * is used when displaying some kind of animation before killing it, or if it is
+	 * bound by some kind of counter
+	 * 
+	 * @param time
+	 *            the time before it is killed. If <= 0, it dies instantly
 	 */
 	public void kill(int time) {
-		for (IKilledListener listener : killedListeners) listener.killed(this);
-		if (time <= 0) this.kill();
+		for (IKilledListener listener : killedListeners)
+			listener.killed(this);
+		if (time <= 0)
+			this.kill();
 		dying = true;
 		dyingCounter = time;
 	}
-	
+
 	public void addKilledListener(IKilledListener listener) {
 		killedListeners.add(listener);
 	}
@@ -95,32 +100,37 @@ public class Actor extends Entity {
 		setAcceleration(0, getGravity());
 		canJump = false;
 	}
-	
+
 	public boolean isRunning() {
 		return isRunning;
 	}
-	
+
 	/**
 	 * Gets the current direction the actor is facing
+	 * 
 	 * @return
 	 */
-	public Direction getDirection() { return direction; }
-	
+	public Direction getDirection() {
+		return direction;
+	}
+
 	@Override
 	public Frame getSprite(long duration) {
 		return currentAnimation.getImage(duration);
 	}
-	
+
 	@Override
-	public boolean isStatic() { return false; }
-	
+	public boolean isStatic() {
+		return false;
+	}
+
 	/**
 	 * Sets the actor to perform a jump if it is jumpable
 	 */
 	public void jump() {
 		jump(getJumpSpeed());
 	}
-	
+
 	public void jump(int initialUpSpeed) {
 		if (initialUpSpeed > 0) {
 			initialUpSpeed = -initialUpSpeed;
@@ -132,20 +142,24 @@ public class Actor extends Entity {
 		}
 	}
 	
+	public boolean isJumping() {
+		return speed().getVertical() != 0;
+	}
+
 	public int getScoredKilled() {
 		return 0;
 	}
-	
+
 	public void setWalkingSpeed() {
 		isRunning = false;
 		updateSpeed();
 	}
-	
+
 	public void setRunningSpeed() {
 		isRunning = true;
 		updateSpeed();
 	}
-	
+
 	private void updateSpeed() {
 		if (isMovingHorizontal() && !isMovingVertical()) {
 			if (direction == Direction.RIGHT) {
@@ -155,19 +169,19 @@ public class Actor extends Entity {
 			}
 		}
 	}
-	
+
 	protected boolean isMovingHorizontal() {
 		return speed().getHorizontal() != 0;
 	}
-	
+
 	protected boolean isMovingVertical() {
 		return speed().getVertical() != 0;
 	}
-	
+
 	public int getCurrentReachableSpeed() {
-		return isRunning ? runningSpeed : walkingSpeed;		
+		return isRunning ? runningSpeed : walkingSpeed;
 	}
-	
+
 	/**
 	 * Sets the actor to move to the left
 	 */
@@ -178,7 +192,7 @@ public class Actor extends Entity {
 			setAnimation();
 		}
 	}
-	
+
 	/**
 	 * Sets the actor to move to the right
 	 */
@@ -189,7 +203,7 @@ public class Actor extends Entity {
 			setAnimation();
 		}
 	}
-	
+
 	/**
 	 * Reverses the horizontal motion from right to left or left to right
 	 */
@@ -200,28 +214,32 @@ public class Actor extends Entity {
 			moveRight();
 		}
 	}
-	
+
 	/**
 	 * Allows the actor to jump again
 	 */
 	public void resetJump() {
 		canJump = true;
 	}
-	
+
 	/**
 	 * Sets the correct animation depending on speed and direction
 	 */
 	public void setAnimation() {
 		switch (direction) {
 		case LEFT:
-			if (speed().getHorizontal() == 0) {
+			if (speed().getVertical() != 0) {
+				setAnimation(animationLibrary.getJumpingLeft());
+			} else if (speed().getHorizontal() == 0) {
 				setAnimation(animationLibrary.getStandingLeft());
 			} else {
 				setAnimation(animationLibrary.getWalkingLeft());
 			}
-		break;
+			break;
 		case RIGHT:
-			if (speed().getHorizontal() == 0) {
+			if (speed().getVertical() != 0) {
+				setAnimation(animationLibrary.getJumpingRight());
+			} else if (speed().getHorizontal() == 0) {
 				setAnimation(animationLibrary.getStandingRight());
 			} else {
 				setAnimation(animationLibrary.getWalkingRight());
@@ -229,27 +247,31 @@ public class Actor extends Entity {
 			break;
 		}
 	}
-	
+
 	/**
 	 * Sets the current animation to the animation object given
-	 * @param animation the animation
+	 * 
+	 * @param animation
+	 *            the animation
 	 */
 	public void setAnimation(Animation animation) {
-		currentAnimation = animation; 
+		currentAnimation = animation;
 	}
-	
+
 	/**
 	 * Sets the direction for the entity. It will modify the direction of the
 	 * horizontal speed vector but will not modify its value
-	 * @param dir the new direction to face
+	 * 
+	 * @param dir
+	 *            the new direction to face
 	 */
 	public void setDirection(Direction dir) {
 		direction = dir;
-		
-		//TODO: modify speed vector
+
+		// TODO: modify speed vector
 		setAnimation();
 	}
-	
+
 	/**
 	 * Stops the movement of the object on its horizontal axis
 	 */
@@ -257,27 +279,29 @@ public class Actor extends Entity {
 		setSpeed(0, speed().getVertical());
 		setAnimation();
 	}
-	
+
 	/**
 	 * Stops the fall of the object and places at the altitude given
+	 * 
 	 * @param altitude
 	 */
 	public void stopFall(int altitude) {
 		stopFall();
 		setPosition(position.horizontal(), altitude);
-		System.out.println("HERE " + acceleration);
+		setAnimation();
 	}
-	
+
 	/**
-	 * Stops the movement of the object on its vertical axis and allows
-	 * jumping again
+	 * Stops the movement of the object on its vertical axis and allows jumping
+	 * again
 	 */
 	public void stopFall() {
 		setAcceleration(acceleration.getHorizontal(), 0);
 		setSpeed(speed().getHorizontal(), 0);
 		canJump = true;
+		setAnimation();
 	}
-	
+
 	protected int getJumpSpeed() {
 		return defaultJumpSpeed;
 	}
